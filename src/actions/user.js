@@ -116,6 +116,73 @@ export const AutoLogin = () => async (dispatch) => {
   }
 };
 
-export const Logout = () => {
+export const Logout = (navigate) => {
+  navigate("/");
   return { type: "CLEAR_USER_TOKEN" };
+};
+
+//SET_USER_PROFILE
+export const getMyProfile = () => async (dispatch, store) => {
+  try {
+    dispatch({ type: "SET_USER_LOADING" });
+
+    const { isAuth, token } = store().user;
+
+    if (!isAuth) return dispatch({ type: "CLEAR_USER_LOADING" });
+
+    const { data } = await axios.get("/api/profile/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (data?.msg) {
+      dispatch({
+        type: "SET_USER_PROFILE",
+        payload: { bio: "", location: "" },
+      });
+    } else {
+      dispatch({ type: "SET_USER_PROFILE", payload: data });
+    }
+
+    dispatch({ type: "CLEAR_USER_LOADING" });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: "SET_ALERT",
+      payload: { type: "err", msg: error.message },
+    });
+    dispatch({ type: "CLEAR_USER_LOADING" });
+  }
+};
+
+export const UpdateProfile = (profileData) => async (dispatch, store) => {
+  try {
+    dispatch({ type: "SET_USER_LOADING" });
+
+    const { isAuth, token } = store().user;
+
+    if (!isAuth) return dispatch({ type: "CLEAR_USER_LOADING" });
+
+    const { data } = await axios.post("/api/profile", profileData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (data?.msg) {
+      dispatch({
+        type: "SET_ALERT",
+        payload: { type: "err", msg: data.msg },
+      });
+      dispatch({ type: "CLEAR_USER_LOADING" });
+      return;
+    }
+
+    dispatch({ type: "SET_USER_PROFILE", payload: data });
+    dispatch({ type: "CLEAR_USER_LOADING" });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: "SET_ALERT",
+      payload: { type: "err", msg: error.message },
+    });
+    dispatch({ type: "CLEAR_USER_LOADING" });
+  }
 };

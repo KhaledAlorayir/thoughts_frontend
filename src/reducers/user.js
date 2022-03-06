@@ -1,4 +1,10 @@
-const intial = { isLoading: false, isAuth: false, token: null, user: null };
+const intial = {
+  isLoading: false,
+  isAuth: false,
+  token: null,
+  user: null,
+  profile: null,
+};
 
 export const user = (state = intial, action) => {
   switch (action.type) {
@@ -26,7 +32,11 @@ export const user = (state = intial, action) => {
         isAuth: false,
         token: null,
         user: null,
+        profile: null,
       };
+
+    case "SET_USER_PROFILE":
+      return { ...state, profile: action.payload };
 
     default:
       return state;

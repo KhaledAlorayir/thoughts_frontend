@@ -22,7 +22,7 @@ const Auth = () => {
     if (isAuth) {
       navigate("/");
     }
-  }, [dispatch, isAuth]);
+  }, [navigate, isAuth]);
 
   const ChangeHandler = (e) => {
     setFormData({ ...FormData, [e.target.name]: e.target.value });
