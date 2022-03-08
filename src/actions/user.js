@@ -161,7 +161,6 @@ export const UpdateProfile = (profileData) => async (dispatch, store) => {
     const { isAuth, token } = store().user;
 
     if (!isAuth) return dispatch({ type: "CLEAR_USER_LOADING" });
-
     const { data } = await axios.post("/api/profile", profileData, {
       headers: { Authorization: `Bearer ${token}` },
     });

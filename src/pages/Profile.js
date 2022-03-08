@@ -22,7 +22,7 @@ const Profile = () => {
   return (
     <>
       {isAuth && (
-        <div className="h-full pt-20 px-3 md:px-24 xl:px-80 bg-slate-300">
+        <div className="min-h-full pt-20 pb-5 px-3 md:px-24 xl:px-80 bg-slate-300">
           <div className="mt-8">
             <h3 className="text-4xl text-teal-600 font-semibold mb-5">
               Dashboard
@@ -38,7 +38,7 @@ const Profile = () => {
           {profile && (
             <ProfileInformation
               bio={profile.bio}
-              soical={profile.social}
+              social={profile.social}
               location={profile.location}
             />
           )}
